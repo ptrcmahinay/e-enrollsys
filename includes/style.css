@@ -1,0 +1,173 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    background: #f4f7fb;
+}
+
+/* LAYOUT */
+.layout {
+    display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 200px;
+    background: #0478FF;
+    color: white;
+    display: flex;
+    flex-direction: column;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.sidebar-header {
+    background: #101820;
+    padding: 20px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.menu {
+    flex: 1;
+    padding: 15px 10px;
+    overflow-y: auto;
+}
+
+.menu-item {
+    display: block;
+    padding: 10px 15px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 10px;
+    margin-bottom: 6px;
+    transition: background 0.3s;
+}
+
+.menu-item:hover,
+.menu-item.active {
+    background: #101820;
+    font-weight: 600;
+}
+
+/* SIDEBAR FOOTER */
+.sidebar-footer {
+    margin-top: auto;
+    padding: 15px 10px;
+    border-top: 1px solid rgba(255,255,255,0.3);
+    font-size: 14px;
+}
+
+.sidebar .menu-item,
+.sidebar .sidebar-footer a {
+    display: flex;
+    align-items: center;
+    gap: 6px;  /* space between icon and text */
+    font-size: 12px;  /* consistent font size for both menu and footer */
+}
+
+
+
+/* Sidebar icons */
+.sidebar-icon {
+    font-size: 16px;       /* slightly smaller, was 20px or 10px before */
+    vertical-align: middle; /* keep aligned with text */
+    margin-right: 6px;      /* slightly less space between icon and label */
+    color: white;           /* match sidebar text */
+}
+
+
+/* MAIN */
+.main {
+    margin-left: 200px; /* same as sidebar width */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* TOPBAR */
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 200px; /* sidebar width */
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    z-index: 999;
+}
+
+/* CONTENT AREA BELOW TOPBAR */
+.content-area {
+    margin-top: 60px; /* height of topbar */
+    padding: 20px;
+}
+
+/* LEFT: TERM DISPLAY */
+.term-display {
+    background: linear-gradient(180deg, #3db8ff, #0066ff);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* RIGHT: NOTIFICATION + USER */
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.notification-icon {
+    font-size: 24px;
+    cursor: pointer;
+    color: #555;
+}
+
+.notification-icon:hover {
+    color: #367AFF;
+}
+
+.user-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.user-pill:hover {
+    background-color: #f3f4f6;
+}
+
+.user-icon {
+    font-size: 28px;
+    color: #367AFF;
+}
+
+.username {
+    font-size: 14px;
+    font-weight: 500;
+    color: #101820;
+}
+

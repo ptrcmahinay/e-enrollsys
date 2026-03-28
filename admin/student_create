@@ -1,0 +1,36 @@
+<?php
+session_start();
+require_once "../config/db.php";
+
+if ($_SESSION['role'] !== 'admin') {
+    http_response_code(403);
+    echo json_encode(['status'=>'error','message'=>'Access denied']);
+    exit;
+}
+
+$Student_number = $_POST['Student_number'];
+$Program_id     = $_POST['Program_id'];
+$Section_id     = $_POST['Section_id'];
+$Status         = $_POST['Status'];
+
+// Check for duplicate student number
+$stmt = $conn->prepare("SELECT Id FROM Students WHERE Student_number=?");
+$stmt->bind_param("s", $Student_number);
+$stmt->execute();
+$stmt->store_result();
+if($stmt->num_rows > 0){
+    echo json_encode(['status'=>'error','message'=>'Student number already exists']);
+    exit;
+}
+
+$stmt = $conn->prepare("
+    INSERT INTO Students (Student_number, Program_id, Section_id, Status, Created_at)
+    VALUES (?, ?, ?, ?, NOW())
+");
+$stmt->bind_param("siii", $Student_number, $Program_id, $Section_id, $Status);
+
+if($stmt->execute()){
+    echo json_encode(['status'=>'success']);
+} else {
+    echo json_encode(['status'=>'error','message'=>'Database error']);
+}
