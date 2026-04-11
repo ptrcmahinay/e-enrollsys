@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "../config/db.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/enrollmentSystem/config/db.php";
 
 if ($_SESSION['role'] !== 'admin') {
     die("Access denied");
@@ -27,6 +27,7 @@ $rows = '';
 while ($row = $result->fetch_assoc()) {
     $rows .= "
         <tr>
+
             <td>{$row['Username']}</td>
             <td>{$row['email']}</td>
             <td>{$row['roles']}</td>
@@ -46,21 +47,111 @@ while ($r = $roles->fetch_assoc()) {
     $roleOptions .= "<option value='{$r['roles_id']}'>{$r['role_name']}</option>";
 }
 
+$totalUsers = $conn->query("SELECT COUNT(*) as total FROM Users")
+                   ->fetch_assoc()['total'];
+
+$totalAdmins = $conn->query("
+    SELECT COUNT(*) as total
+    FROM User_roles ur
+    JOIN Roles r ON ur.Role_id = r.Roles_id
+    WHERE r.Role_name = 'admin'
+")->fetch_assoc()['total'];
+
+$totalStudents = $conn->query("
+    SELECT COUNT(*) as total
+    FROM User_roles ur
+    JOIN Roles r ON ur.Role_id = r.Roles_id
+    WHERE r.Role_name = 'student'
+")->fetch_assoc()['total'];
+$lastMonthUsers = $conn->query("
+    SELECT COUNT(*) as total
+    FROM Users
+    WHERE MONTH(created_at) = MONTH(CURDATE()) - 1
+")->fetch_assoc()['total'] ?? 0;
+
+$thisMonthUsers = $totalUsers;
+
+$userGrowth = ($lastMonthUsers > 0)
+    ? round((($thisMonthUsers - $lastMonthUsers) / $lastMonthUsers) * 100, 1)
+    : 0;
 ob_start();
 ?>
 
-<div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-semibold">User Management</h1>
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <h1 class="text-2xl font-semibold">User Management</h1>
+        <p class="text-sm text-gray-500">
+            Manage your users and their accounts
+        </p>
+    </div>
+    <!-- Add User Button -->
     <button id="addUserBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2">
-        <span class="material-icons">add</span>
+        <span class="material-symbols-outlined">person_add</span>
         Add User
     </button>
-</div>
 
+    <?php include "add_modal.php"; ?>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+
+    <!-- TOTAL USERS -->
+    <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition flex items-center justify-between">
+
+        <div>
+            <p class="text-gray-500 text-sm">Total Users</p>
+            <h2 class="text-2xl font-bold"><?= $totalUsers ?></h2>
+
+            <p class="text-xs mt-1 <?= $userGrowth >= 0 ? 'text-green-600' : 'text-red-500' ?>">
+                <?= $userGrowth >= 0 ? '+' : '' ?><?= $userGrowth ?>% this month
+            </p>
+        </div>
+
+        <div class="bg-blue-100 p-3 rounded-full">
+            <span class="material-symbols-outlined text-blue-600 text-3xl">
+                group
+            </span>
+        </div>
+
+    </div>
+
+    <!-- ADMINS -->
+    <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition flex items-center justify-between">
+
+        <div>
+            <p class="text-gray-500 text-sm">Admins</p>
+            <h2 class="text-2xl font-bold"><?= $totalAdmins ?></h2>
+        </div>
+
+        <div class="bg-red-100 p-3 rounded-full">
+            <span class="material-symbols-outlined text-red-600 text-3xl">
+                shield_person
+            </span>
+        </div>
+
+    </div>
+
+    <!-- STUDENTS -->
+    <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition flex items-center justify-between">
+
+        <div>
+            <p class="text-gray-500 text-sm">Students</p>
+            <h2 class="text-2xl font-bold"><?= $totalStudents ?></h2>
+        </div>
+
+        <div class="bg-green-100 p-3 rounded-full">
+            <span class="material-symbols-outlined text-green-600 text-3xl">
+                school
+            </span>
+        </div>
+
+    </div>
+
+</div>
 <div class="bg-white rounded-xl shadow p-4">
     <table id="usersTable" class="display w-full">
         <thead>
             <tr>
+                <!-- <th>Name</th> -->
                 <th>Username</th>
                 <th>Email</th>
                 <th>Role(s)</th>
@@ -73,39 +164,7 @@ ob_start();
     </table>
 </div>
 
-<!-- ADD USER MODAL -->
-<div id="addUserModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
-    <div class="bg-white rounded-lg w-96 p-6">
-        <h2 class="text-lg font-semibold mb-4">Create User</h2>
 
-        <form id="addUserForm">
-            <input name="username" required placeholder="Username"
-                   class="w-full border rounded px-3 py-2 mb-3">
-
-            <input name="email" type="email" required placeholder="Email"
-                   class="w-full border rounded px-3 py-2 mb-3">
-
-            <input name="password" type="password" required placeholder="Password"
-                   class="w-full border rounded px-3 py-2 mb-3">
-
-            <select name="role_id" required
-                    class="w-full border rounded px-3 py-2 mb-4">
-                <option value="">Select Role</option>
-                <?= $roleOptions ?>
-            </select>
-
-            <div class="flex justify-end gap-2">
-                <button type="button" id="closeModal"
-                        class="border px-4 py-2 rounded">
-                    Cancel
-                </button>
-                <button class="bg-blue-600 text-white px-4 py-2 rounded">
-                    Create
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
 <!-- RESET PASSWORD MODAL -->
 <div id="resetPasswordModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
     <div class="bg-white rounded-lg w-96 p-6">
@@ -184,8 +243,24 @@ $('#resetPasswordForm').submit(function(e){
     }, 'json');
 });
 
-</script>
 
+// add modal
+document.addEventListener("DOMContentLoaded", function () {
+
+    const addBtn = document.getElementById("addUserBtn");
+    const modal = document.getElementById("addUserModal");
+    const closeBtn = document.getElementById("closeModal");
+
+    addBtn.addEventListener("click", function () {
+        modal.classList.remove("hidden");
+    });
+
+    closeBtn.addEventListener("click", function () {
+        modal.classList.add("hidden");
+    });
+
+});
+</script>
 <?php
 $main_content = ob_get_clean();
 include "../includes/template.php";

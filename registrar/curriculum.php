@@ -54,20 +54,71 @@ while ($row = $result->fetch_assoc()) {
         </tr>
     ";
 }
+$totalPrograms = $conn->query("SELECT COUNT(*) as total FROM programs")
+                      ->fetch_assoc()['total'];
 
-$main_content = <<<'HTML'
+$totalDepartments = $conn->query("
+    SELECT COUNT(*) as total FROM departments
+")->fetch_assoc()['total'];
+
+$main_content = <<<HTML
 <div class="w-full">
     <!-- PAGE HEADER -->
-    <div class="flex justify-between items-center mb-6">
-        <div>
-            <h1 class="text-2xl font-semibold text-gray-800">Curriculum Management</h1>
-        </div>
-        <button id="addProgramBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
-            <span class="material-icons text-sm">add</span>
-            Add Program
-        </button>
+<div class="flex justify-between items-start mb-6">
+
+    <div>
+        <h1 class="text-2xl font-semibold text-gray-800">
+            Curriculum Management
+        </h1>
+        <p class="text-sm text-gray-500">
+            Manage programs and departments
+        </p>
     </div>
 
+    <button id="addProgramBtn"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">add</span>
+        Add Program
+    </button>
+
+</div>
+
+<!-- KPI CARDS -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+
+    <!-- Programs -->
+    <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition flex items-center justify-between">
+
+        <div>
+            <p class="text-gray-500 text-sm">Total Programs</p>
+            <h2 class="text-2xl font-bold">{$totalPrograms}</h2>
+        </div>
+
+        <div class="bg-blue-100 p-3 rounded-full">
+            <span class="material-symbols-outlined text-blue-600 text-3xl">
+                menu_book
+            </span>
+        </div>
+
+    </div>
+
+    <!-- Departments -->
+    <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition flex items-center justify-between">
+
+        <div>
+            <p class="text-gray-500 text-sm">Departments</p>
+            <h2 class="text-2xl font-bold">{$totalDepartments}</h2>
+        </div>
+
+        <div class="bg-green-100 p-3 rounded-full">
+            <span class="material-symbols-outlined text-green-600 text-3xl">
+                account_tree
+            </span>
+        </div>
+
+    </div>
+
+</div>
     <!-- PROGRAM LIST -->
     <div class="bg-white rounded-xl shadow-sm p-4">
         <table id="curriculumTable" class="display w-full text-sm table-auto border mb-4">
