@@ -9,7 +9,7 @@ $activePage = "Student Management";
 $activeSubPage = $activeSubPage ?? 'Student Management'; 
 // Fetch students with program and section
 $result = $conn->query("
-    SELECT s.Id, s.Student_number, p.Program_code, sec.Section_name, sec.Year_level, s.Status
+    SELECT s.Id, s.Student_number, s.Full_name, p.Program_code, sec.Section_name, sec.Year_level, s.Status
     FROM Students s
     LEFT JOIN Programs p ON s.Program_id = p.Programs_id
     LEFT JOIN Sections sec ON s.Section_id = sec.Id
@@ -23,6 +23,7 @@ while ($row = $result->fetch_assoc()) {
     $rows .= "
         <tr>
             <td>{$row['Student_number']}</td>
+            <td>{$row['Full_name']}</td>
             <td>{$row['Program_code']}</td>
             <td>{$row['Year_level']}</td>
             <td>{$row['Section_name']}</td>
@@ -65,6 +66,7 @@ ob_start();
         <thead>
             <tr>
                 <th>Student Number</th>
+                <th>Name</th>
                 <th>Program</th>
                 <th>Year Level</th>
                 <th>Section</th>
@@ -86,6 +88,10 @@ ob_start();
             <div class="mb-3">
                 <label class="block font-medium mb-1">Student Number</label>
                 <input type="text" name="Student_number" class="w-full border rounded px-3 py-2" required>
+            </div>
+            <div class="mb-3">
+                <label class="block font-medium mb-1">Full Name</label>
+                <input type="text" name="Full_name" class="w-full border rounded px-3 py-2" required>
             </div>
             <div class="mb-3">
                 <label class="block font-medium mb-1">Program</label>

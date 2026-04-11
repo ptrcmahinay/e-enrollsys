@@ -60,13 +60,15 @@ if (!password_verify($password, $user['password'])) {
     exit;
 }
 
+session_regenerate_id(true);
+
 // 7️⃣ Set session variables
 $_SESSION['user_id']  = $user['users_id'];
 $_SESSION['role']     = $user['role_name'];
 
 if ($user['role_name'] === 'student') {
     $_SESSION['username']   = $user['full_name'];
-    $_SESSION['student_id'] = $user['student_id']; // ✅ Now set correctly
+    $_SESSION['student_id'] = $user['student_id']; 
 } else {
     $_SESSION['username'] = $user['username'];
 }

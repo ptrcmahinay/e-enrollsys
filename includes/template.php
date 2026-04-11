@@ -12,6 +12,10 @@ $main_content = $main_content ?? '';
 $username     = $_SESSION['username'] ?? 'User';
 $user_role    = $_SESSION['role'] ?? '';
 
+$email = ($user_role === 'student')
+    ? ($user['student_id'] ?? '')
+    : ($_SESSION['email'] ?? '');
+
 $semester_labels = [
     '1'   => 'First Semester',
     '2'   => 'Second Semester',
@@ -20,70 +24,47 @@ $semester_labels = [
 
 $semester_text = $semester_labels[$current_term['semester'] ?? ''] ?? '';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title><?= htmlspecialchars($page_title) ?></title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../includes/style.css?v=999">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<meta charset="UTF-8">
+<title><?= htmlspecialchars($page_title) ?></title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="../includes/ui.css">
+<link rel="stylesheet" href="../includes/layout/sidebar.css">
 </head>
-<body>
-<div class="layout">
+<body class="bg-gray-100">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            E-EnrollSys
-        </div>
+<div class="layout" id="layout">
 
-        <nav class="menu">
-            <?php include "sidebar_items.php"; ?>
-        </nav>
+    <?php include __DIR__ . "/layout/sidebar.php"; ?>
 
-        <div class="sidebar-footer">
-            <a href="../includes/settings.php" class="menu-item <?= ($activePage === 'Settings') ? 'active' : '' ?>">
-                <span class="material-icons sidebar-icon">settings</span>
-                Settings
-            </a>
-            <a href="../auth/login.php" class="menu-item">
-                <span class="material-icons sidebar-icon">logout</span>
-                Logout
-            </a>
-        </div>
-    </aside>
+    <div class="main">
+        <?php include __DIR__ . "/layout/header.php"; ?>
 
-    <!-- MAIN CONTENT -->
-    <main class="main">
-
-        <!-- TOPBAR -->
-        <header class="topbar">
-            <div class="topbar-left">
-                <div class="term-display">
-                    <?= $current_term
-                        ? "A.Y. {$current_term['year_label']} • {$semester_text}"
-                        : "No active term"
-                    ?>
-                </div>
-            </div>
-
-            <div class="topbar-right">
-                <span class="material-icons notification-icon">notifications</span>
-                <div class="user-pill">
-                    <span class="material-icons user-icon">account_circle</span>
-                    <span class="username"><?= htmlspecialchars($username) ?></span>
-                </div>
-            </div>
-        </header>
-
-        <!-- SCROLLABLE CONTENT -->
         <div class="content-area">
             <?= $main_content ?>
         </div>
+    </div>
 
-    </main>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const toggleBtn = document.getElementById("menuToggle");
+    const layout = document.getElementById("layout");
+
+    toggleBtn.addEventListener("click", function () {
+        layout.classList.toggle("collapsed");
+    });
+
+});
+</script>
+</body>
+</html>
+
 </body>
 </html>

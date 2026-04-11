@@ -96,8 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       .register-box {
         width: 100%;
-        max-width: 400px;
-        padding: 30px;
+        max-width: 300px;
+        padding: 20px;
         background-color: rgba(255,255,255,0.9);
         box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
         border-radius: 8px;
@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       h2 {
           margin-top: 0;
-          margin-bottom: 20px;
+          margin-bottom: 15px;
           color: #000000ff;
       }
 
@@ -162,11 +162,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           color: #367AFF;
           text-decoration: none;
       }
+
+      .link{
+        font-size: 14px;
+        color: gray;
+      }
     </style>
 </head>
 <body>
   <div class="register-box">
-    <img src="../assets/img/logo.png" alt="logo" class="logo">
+    <!-- <img src="../assets/img/logo.png" alt="logo" class="logo"> -->
     <h1>Three Academy</h1>
     <h2>Student Registration</h2>
 
@@ -196,7 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <button type="submit">Register</button>
 
-        <p>Already have an account? <a href="login.php">Log in</a></p>
+        <p class="link">Already have an account? <a href="login.php">Log in</a></p>
     </form>
 </div>
 </body>

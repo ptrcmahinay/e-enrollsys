@@ -39,7 +39,7 @@
       .login-box {
         width: 100%;
         max-width: 300px;
-        padding: 30px;
+        padding: 20px;
         background-color: rgba(255,255,255,0.9);
         box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
         border-radius: 8px;
@@ -61,7 +61,7 @@
 
       h2 {
           margin-top: 0;
-          margin-bottom: 20px;
+          margin-bottom: 15px;
           color: #000000ff;
       }
 
@@ -103,6 +103,11 @@
           color: #367AFF;
           text-decoration: none;
       }
+
+      .link{
+        font-size: 14px;
+        color: gray;
+      }
     </style>
 </head>
 <body>
@@ -113,10 +118,10 @@
 
         if (password.type === "password") {
             password.type = "text";
-            icon.textContent = "visibility_off";
+            icon.textContent = "visibility";
         } else {
             password.type = "password";
-            icon.textContent = "visibility";
+            icon.textContent = "visibility_off";
         }
     }
     </script>
@@ -124,7 +129,7 @@
         
     </header>
     <div class="login-box">
-        <img src="../assets/img/logo.png" alt="logo" class="logo">
+        <!-- <img src="../assets/img/logo.png" alt="logo" class="logo"> -->
         <h1>E-EnrollSys</h1>
         <h2>Login</h2>
         <form action="login_process.php" method="POST">
@@ -151,7 +156,7 @@
             <button type="submit">Log in</button>
         </form>
 
-        <p>Don't have an account? <a href="student_register.php">Create your account</a></p>
+        <p class="link">Don't have an account? <a href="student_register.php">Create your account</a></p>
     </div>
 </body>
 </html>
