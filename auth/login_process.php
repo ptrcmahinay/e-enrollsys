@@ -15,13 +15,20 @@ $user = null;
 
 // 3️⃣ Attempt STUDENT login first
 $sql = "
-SELECT u.users_id, u.password, r.role_name, u.username, s.id AS student_id, s.full_name
-FROM users u
-JOIN students s ON u.student_id = s.id
-JOIN user_roles ur ON u.users_id = ur.user_id
-JOIN roles r ON ur.role_id = r.roles_id
-WHERE s.student_number = ?
-LIMIT 1
+    SELECT 
+        u.users_id AS user_id,
+        u.password,
+        r.role_name,
+        u.username,
+        u.email,
+        s.id AS student_id,
+        s.full_name
+    FROM students s
+    JOIN users u ON u.student_id = s.id
+    JOIN user_roles ur ON u.users_id = ur.user_id
+    JOIN roles r ON ur.role_id = r.roles_id
+    WHERE s.student_number = ?
+    LIMIT 1
 ";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $identifier);
@@ -32,13 +39,22 @@ $user = $result->fetch_assoc();
 // 4️⃣ If not found, attempt STAFF/ADMIN login
 if (!$user) {
     $sql = "
-    SELECT u.users_id, u.password, r.role_name, u.username
+    SELECT 
+        u.users_id AS user_id,
+        u.password,
+        r.role_name,
+        u.username,
+        u.email,
+        s.staff_id AS staff_id,
+        s.full_name
     FROM users u
+    JOIN staff s ON s.users_id = u.users_id
     JOIN user_roles ur ON u.users_id = ur.user_id
     JOIN roles r ON ur.role_id = r.roles_id
     WHERE u.username = ?
     LIMIT 1
-    ";
+";
+    
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $identifier);
     $stmt->execute();
@@ -63,10 +79,21 @@ if (!password_verify($password, $user['password'])) {
 session_regenerate_id(true);
 
 // 7️⃣ Set session variables
-$_SESSION['user_id']  = $user['users_id'];
-$_SESSION['role']     = $user['role_name'];
+// $_SESSION['user_id'] = $user['user_id'];
+// $_SESSION['role']     = $user['role_name'];
+// $_SESSION['email']     = $user['email'];
 
-if ($user['role_name'] === 'student') {
+$_SESSION['user'] = [
+    'id' => $user['user_id'] ?? null,
+    'name' => $user['full_name'] ?? $user['username'] ?? '',
+    'username' => $user['username'] ?? '',
+    'email' => $user['email'] ?? '',
+    'role' => $user['role_name'] ?? '',
+    'student_id' => $user['student_id'] ?? null,
+    'staff_id' => $user['staff_id'] ?? null
+];
+
+if ($_SESSION['user']['role'] === 'student') {
     $_SESSION['username']   = $user['full_name'];
     $_SESSION['student_id'] = $user['student_id']; 
 } else {
@@ -74,7 +101,7 @@ if ($user['role_name'] === 'student') {
 }
 
 // 8️⃣ Redirect by role
-switch ($user['role_name']) {
+switch ($_SESSION['user']['role']) {
     case 'student':
         header("Location: ../student/dashboard.php");
         break;
@@ -95,3 +122,5 @@ switch ($user['role_name']) {
 }
 exit;
 ?>
+
+
