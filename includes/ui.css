@@ -6,88 +6,29 @@
     font-family: "Segoe UI", sans-serif;
 }
 
+:root {
+    /* colors */
+    --body-color: #E4E9F7;
+    --sidebar-bg: #0f172a;        /* dark navy */
+    --sidebar-hover: #1e293b;
+    --sidebar-active: #2563eb;
+
+    --text-light: #cbd5f5;
+    --text-white: #ffffff;
+
+    /* transition */
+    --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
 body {
-    background: #f4f7fb;
+    background: var(--body-color); /*#f4f7fb */
+    height: 100vh;
 }
 
 /* LAYOUT */
 .layout {
     display: flex;
-}
-
-/* SIDEBAR */
-.sidebar {
-    width: 230px;
-    background: #14532d;
-    color: white;
-    display: flex;
-    flex-direction: column;
-
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    overflow-y: auto;
-    z-index: 1000;
-}
-
-/* HEADER */
-.sidebar-header {
-    /* background: rgba(0, 0, 0, 0.2); */
-    padding: 18px;
-    font-size: 18px;
-    font-weight: 700;
-    text-align: left;
-    border-bottom: 1px solid gray;
-}
-
-/* MENU ITEMS */
-.menu-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 12px 15px;
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-    border-radius: 10px;
-    margin: 4px 10px;
-    transition: all 0.25s ease;
-}
-
-/* HOVER */
-.menu-item:hover {
-    /* font-weight: 500; */
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateX(3px);
-    background-color: #ecfdf5;
-    color: #14532d;
-}
-
-/* ACTIVE PAGE */
-.menu-item.active {
-    background: #ecfdf5;
-    color: #14532d;
-    font-weight: 600;
-    /* border: 4px solid #22c55e; */
-}
-
-/* ICONS */
-.sidebar-icon {
-    font-size: 18px;
-    color: inherit;
-}
-
-/* SIDEBAR FOOTER */
-.sidebar-footer {
-    margin-top: auto;
-    /* padding: 12px; */
-    border-top: 1px solid rgba(255,255,255,0.2);
-}
-
-/* FOOTER ITEMS */
-.sidebar-footer .menu-item {
-    font-size: 14px;
 }
 
 /* MAIN */
@@ -136,40 +77,4 @@ body {
     gap: 14px;
 }
 
-/* NOTIFICATION */
-.notification-icon {
-    font-size: 22px;
-    cursor: pointer;
-    color: #4b5563;
-}
 
-.notification-icon:hover {
-    color: #16a34a;
-}
-
-/* USER */
-.user-pill {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 9999px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.user-pill:hover {
-    background-color: #f0fdf4;
-}
-
-.user-icon {
-    font-size: 26px;
-    color: #16a34a;
-}
-
-.username {
-    font-size: 14px;
-    font-weight: 500;
-    color: #14532d;
-}

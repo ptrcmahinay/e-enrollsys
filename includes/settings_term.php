@@ -4,7 +4,7 @@ require_once "../config/db.php";
 require_once "../includes/current_term.php";
 
 // Only admin/registrar
-$role = $_SESSION['role'] ?? '';
+$role = $_SESSION['user']['role'] ?? '';
 if (!in_array($role, ['admin', 'registrar'])) {
     die("Access denied.");
 }
@@ -89,11 +89,11 @@ ob_start();
     <!-- PAGE HEADER -->
     <div class="flex justify-between items-center mb-6">
         <a href="settings.php" class="flex items-center text-gray-600 hover:text-gray-800">
-            <span class="material-icons">arrow_back</span> Back
+            <span class="material-symbols-outlined">arrow_back</span> Back
         </a>
         <h1 class="text-2xl font-semibold text-gray-800">Manage Academic Term</h1>
         <button id="toggleNewAY" class="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2">
-            <span class="material-icons text-sm">add</span>
+            <span class="material-symbols-outlined text-sm">add</span>
             Add Academic Year
         </button>
     </div>

@@ -1,64 +1,145 @@
-/* SIDEBAR */
+/* ===== SIDEBAR ===== */
 .sidebar {
     width: 250px;
-    transition: 0.3s ease;
+    height: 100vh;
     position: fixed;
+    background: var(--sidebar-bg);
+    color: var(--text-light);
+    
     top: 0;
     left: 0;
-    height: 100vh;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.15);
 }
 
-/* COLLAPSED SIDEBAR */
-.layout.collapsed .sidebar{
-    width: 60px;
+/* HEADER LOGO */
+.sidebar-header {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 15px;
+    font-weight: 600;
+    color: var(--text-white);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-.layout.collapsed .sidebar .sidebar-text {
-    display: none !important;
-}
-
-.layout.collapsed .sidebar-header {
+/* sidebar header */
+.menu-button {
+    display: flex;
+    align-items: center;
     justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    padding: 0;
+    border-radius: 6px;
+}
+.menu-button:hover{
+    background: var(--sidebar-hover);
 }
 
-.layout.collapsed .sidebar-header .sidebar-text {
-    display: none;
+/* MENU ITEMS */
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    margin: 8px 6px;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
 }
 
-/* .sidebar-text{
+/* Hover effect */
+.menu-item:hover {
+    background: var(--sidebar-hover);
+    color: var(--text-white);
+}
+
+/* Active state */
+.menu-item.active {
+    background: var(--sidebar-active);
+    color: white;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding: 10px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ICON */
+.sidebar-icon {
+    font-size: 22px;
+    min-width: 24px;
+}
+
+/* TEXT */
+.sidebar-text {
     font-size: 14px;
-} */
-
-.layout.collapsed .sidebar .menu-item {
-    justify-content: center;
+    white-space: nowrap;
 }
 
-.layout.collapsed .sidebar .sidebar-icon {
-    margin: 0;
-}
-/* HEADER */
+/* ===== HEADER ===== */
 .header {
     position: fixed;
     top: 0;
     left: 250px;
     right: 0;
     height: 64px;
-    transition: 0.3s ease;
     background: white;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    transition: var(--transition);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-/* HEADER COLLAPSED */
-.layout.collapsed header {
+/* ===== MAIN ===== */
+.main {
+    margin-left: 250px;
+    padding: 20px;
+    transition: var(--transition);
+}
+
+
+
+html.collapsed .sidebar {
+    width: 70px;
+}
+
+html.collapsed .header {
     left: 70px;
 }
 
-/* MAIN */
-.main {
-    margin-left: 250px;
-    padding-top: 5px;
-    transition: 0.3s ease;
+html.collapsed .main {
+    margin-left: 70px;
 }
 
-.layout.collapsed .main {
-    margin-left: 70px;
+html.collapsed .sidebar-text {
+    display: none;
+}
+
+/* Center items */
+html.collapsed .menu-item {
+    justify-content: center;
+}
+
+
+.main {
+    margin-left: 200px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* CONTENT */
+.content-area {
+    margin-top: 20px;
+    padding: 10px;
 }

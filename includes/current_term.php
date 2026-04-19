@@ -1,5 +1,5 @@
 <?php
-require_once "../config/db.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/enrollmentSystem/config/db.php";
 
 /*
     Current Term = active semester joined with its Academic Year

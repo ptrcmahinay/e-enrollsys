@@ -1,6 +1,7 @@
 <?php
 
-$user_role = $user_role ?? ($_SESSION['role'] ?? '');
+$user       = $_SESSION['user'] ?? [];
+$user_role  = $user_role ?? ($user['role'] ?? '');
 $activePage = $activePage ?? '';
 $sidebar = [];
 
@@ -19,7 +20,7 @@ switch ($user_role) {
     case 'registrar':
         $sidebar = [
             'Dashboard' => ['icon' => 'dashboard', 'link' => '../registrar/dashboard.php'],
-            'Curriculum Management' => ['icon' => 'school', 'link' => '../registrar/curriculum.php'],
+            'Curriculum Management' => ['icon' => 'menu_book', 'link' => '../registrar/curriculum.php'],
             'Students' => ['icon' => 'groups', 'link' => '../registrar/students.php'],
             'Enrollment' => ['icon' => 'app_registration', 'link' => '../enrollment/index.php'],
         ];
@@ -31,7 +32,7 @@ switch ($user_role) {
             'User Management' => ['icon' => 'manage_accounts', 'link' => '../admin/users.php'],
             'Staff Management' => ['icon' => 'badge', 'link' => '../admin/staff.php'],
             'Student Management' => ['icon' => 'groups', 'link' => '../admin/students.php'],
-            'Curriculum Management' => ['icon' => 'school', 'link' => '../registrar/curriculum.php'],
+            'Curriculum Management' => ['icon' => 'menu_book', 'link' => '../registrar/curriculum.php'],
             'Enrollment' => ['icon' => 'app_registration', 'link' => '../enrollment/index.php'],
         ];
         break;

@@ -5,7 +5,7 @@ require_once "../includes/current_term.php";
 
 $page_title = "Settings";
 $activePage = 'Settings';
-$role = $_SESSION['role'] ?? '';
+$role = $_SESSION['user']['role'] ?? '';
 $username = $_SESSION['username'] ?? '';
 
 $semester_labels = [
@@ -23,8 +23,21 @@ $ay_exists = $ay_result->num_rows > 0;
 // Capture main content
 ob_start();
 ?>
+<!-- Breadcrumbs -->
+<nav class="text-sm text-gray-500 mb-4 flex items-center gap-2">
+    <a href="dashboard.php" class="flex items-center gap-1 hover:text-gray-700">
+        <span class="material-symbols-outlined text-base">home</span>
+    </a>
+    <span>/</span>
+    <span class="text-gray-900 font-medium"><?= $page_title ?></span>
+</nav>
 
-<h1 class="text-2xl font-semibold mb-6">Settings</h1>
+<div class="mb-6">
+    <h1 class="text-3xl font-bold text-secondary-900 ">Settings</h1>
+    <p class="gray-500">
+        Welcome back! Here's your system overview.
+    </p>
+</div>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
@@ -59,3 +72,4 @@ ob_start();
 <?php
 $main_content = ob_get_clean();
 include "../includes/template.php";
+

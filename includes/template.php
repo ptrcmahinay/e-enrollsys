@@ -3,14 +3,16 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once "../config/db.php";
-require_once "../includes/current_term.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/enrollmentSystem/config/db.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/enrollmentSystem/includes/current_term.php";
 
+$sidebarState = $_SESSION['sidebar'] ?? 'expanded';
 $page_title   = $page_title   ?? 'Portal';
 $activePage   = $activePage   ?? '';
 $main_content = $main_content ?? '';
-$username     = $_SESSION['username'] ?? 'User';
-$user_role    = $_SESSION['role'] ?? '';
+$user         = $_SESSION['user'] ?? [];
+$username     = $user['name'] ?? 'User';
+$user_role    = $user['role'] ?? '';
 
 $email = ($user_role === 'student')
     ? ($user['student_id'] ?? '')
@@ -38,33 +40,18 @@ $semester_text = $semester_labels[$current_term['semester'] ?? ''] ?? '';
 <body class="bg-gray-100">
 
 <div class="layout" id="layout">
-
     <?php include __DIR__ . "/layout/sidebar.php"; ?>
-
+    <?php include __DIR__ . "/layout/header.php"; ?>
     <div class="main">
-        <?php include __DIR__ . "/layout/header.php"; ?>
-
         <div class="content-area">
             <?= $main_content ?>
         </div>
     </div>
-
 </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    const toggleBtn = document.getElementById("menuToggle");
-    const layout = document.getElementById("layout");
-
-    toggleBtn.addEventListener("click", function () {
-        layout.classList.toggle("collapsed");
-    });
-
-});
-</script>
 </body>
 </html>
 
 </body>
 </html>
+<!--  -->
